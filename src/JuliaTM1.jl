@@ -1,6 +1,6 @@
 module JuliaTM1
 
-export check_api, check_api_new
+export check_api, get_request, post_request
 
 include("check_api.jl")
 
