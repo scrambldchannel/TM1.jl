@@ -8,7 +8,6 @@ function get_request(url, headers)::String
         return "Something is borked: $e"
     end
     
-    return response
 end
 
 function post_request(url, data, headers)
