@@ -3,7 +3,7 @@ using Documenter
 
 makedocs(;
     modules=[JuliaTM1],
-    authors="Alexander Sutcliffe <sutcliffe.alex@gmail.com> and contributors",
+    authors="Alexander Sutcliffe <sutcliffe.alex@gmail.com>",
     repo="https://github.com/scrambldchannel/JuliaTM1.jl/blob/{commit}{path}#L{line}",
     sitename="JuliaTM1.jl",
     format=Documenter.HTML(;

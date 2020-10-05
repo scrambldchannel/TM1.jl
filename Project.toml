@@ -1,6 +1,6 @@
 name = "JuliaTM1"
 uuid = "77072e5b-be5f-4aad-92ba-c06678f629ad"
-authors = ["Alexander Sutcliffe <sutcliffe.alex@gmail.com> and contributors"]
+authors = ["Alexander Sutcliffe <sutcliffe.alex@gmail.com>"]
 version = "0.1.0"
 
 [compat]
