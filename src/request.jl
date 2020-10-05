@@ -1,3 +1,5 @@
+module request
+
 using HTTP
 
 export test_connect
@@ -7,3 +9,4 @@ function test_connect()
     return JSON.print(JSON.parse(response), 4)
 end
     
+end
