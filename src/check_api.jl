@@ -1,6 +1,6 @@
 using HTTP
 
-function check_api()
-    response = HTTP.get("http://192.168.56.101:8015/api/v1/")
+function check_api(host, port)
+    response = HTTP.get("http://" * host * ":" * port * "/api/v1/")
     return response
 end
