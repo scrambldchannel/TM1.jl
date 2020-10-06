@@ -34,8 +34,12 @@ export # requests.jl
 # Ping #
 ########
 
-include("ping/ping.jl")
+
+include("connection.jl")
+include("ping.jl")
 
 export # ping.jl
        ping
 
+export # connection.jl
+       get_connection
