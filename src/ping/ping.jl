@@ -4,5 +4,6 @@
 # need to look at how github.jl is invoked
 
 @api_default function ping(api::TM1API; options...)
-    tm1_get_json(api, "/"; options...)
+    print("frogger")
+    tm1_get_json(api)
 end
