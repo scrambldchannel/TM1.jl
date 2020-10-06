@@ -1,8 +1,7 @@
 module JuliaTM1
 
-export check_api, get_request
+export check_api
 
 include("check_api.jl")
-include("request_wrapper.jl")
 
 end # module
