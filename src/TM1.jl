@@ -30,35 +30,12 @@ export # auth.jl
 export # requests.jl
        rate_limit
 
-##################################
-# Owners (organizations + users) #
-##################################
+########
+# Ping #
+########
 
-# include -------
+include("ping/ping.jl")
 
-include("owners/owners.jl")
+export # ping.jl
+       ping
 
-# export -------
-
-export # owners.jl
-       Owner,
-       owner,
-       orgs,
-       users,
-       followers,
-       following,
-       repos
-
-##################################
-# Teams                          #
-##################################
-
-# include -------
-
-include("owners/teams.jl")
-
-# export -------
-
-export # teams.jl
-       Team,
-       members
