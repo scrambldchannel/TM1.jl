@@ -1,6 +1,6 @@
 module JuliaTM1
 
-export get_connection, ping, TM1Connection
+export get_connection, ping
 
 include("connection.jl")
 include("ping.jl")
