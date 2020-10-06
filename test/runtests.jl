@@ -1,6 +1,6 @@
-using JuliaTM1
+using TM1
 using Test
 
-@testset "JuliaTM1.jl" begin
+@testset "TM1.jl" begin
     # Write your tests here.
 end

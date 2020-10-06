@@ -1,12 +1,12 @@
 ```@meta
-CurrentModule = JuliaTM1
+CurrentModule = TM1
 ```
 
-# JuliaTM1
+# TM1
 
 ```@index
 ```
 
 ```@autodocs
-Modules = [JuliaTM1]
+Modules = [TM1]
 ```
