@@ -45,12 +45,13 @@ end
 # Default API URIs #
 ####################
 
-api_uri(api::TM1WebAPI, path) = merge(api.endpoint, path = api.endpoint.path * path)
-api_uri(api::TM1API, path) = error("URI retrieval not implemented for this API type")
+function api_uri(api::TM1WebAPI, path)
+    merge(api.endpoint, path = api.endpoint.path * path)
+end
 
-#######################
-# TM1 REST Methods #
-#######################
+function api_uri(api::TM1API, path)
+    error("URI retrieval not implemented for this API type")
+end
 
 function tm1_request(api::TM1API, request_method, endpoint;
                         auth = AnonymousAuth(), handle_error = true,

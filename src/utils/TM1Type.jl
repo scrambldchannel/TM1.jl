@@ -18,7 +18,7 @@ API. Generally:
 abstract type TM1Type end
 
 """
-    @ghdef typeexpr
+    @tm1def typeexpr
 
 Define a new `TM1Type` specified by `typeexpr`, adding default constructors for
 conversions from `Dict`s and keyword arguments.
@@ -38,13 +38,13 @@ macro tm1def(expr)
             var = ei.args[1]
             S  = ei.args[2]
             push!(params_ex.args, Expr(:kw, var, nothing))
-            push!(call_args, :($var === nothing ? $var : prune_github_value($var, unwrap_union_types($S))))
+            push!(call_args, :($var === nothing ? $var : prune_tm1_value($var, unwrap_union_types($S))))
         end
     end
     quote
         Base.@__doc__($(esc(expr)))
         ($(esc(T)))($params_ex) = ($(esc(T)))($(call_args...))
-        $(esc(T))(data::Dict) = json2github($T, data)
+        $(esc(T))(data::Dict) = json2tm1($T, data)
     end
 end
 
@@ -116,48 +116,49 @@ function chopz(str::AbstractString)
     return str
 end
 
-# Calling `json2tm1(::Type{G<:GitHubType}, data::Dict)` will parse the given
-# dictionary into the type `G` with the expectation that the fieldnames of
-# `G` are keys of `data`, and the corresponding values can be converted to the
+# Calling `json2tm1(::Type{T<:TM1Type}, data::Dict)` will parse the given
+# dictionary into the type `T` with the expectation that the fieldnames of
+# `T` are keys of `data`, and the corresponding values can be converted to the
 # given field types.
-@generated function tm12github(::Type{G}, data::Dict) where {G<:GitHubType}
-    types = unwrap_union_types.(collect(G.types))
-    fields = fieldnames(G)
+
+@generated function json2tm1(::Type{T}, data::Dict) where {T<:TM1Type}
+    types = unwrap_union_types.(collect(T.types))
+    fields = fieldnames(T)
     args = Vector{Expr}(undef, length(fields))
     for i in eachindex(fields)
         field, T = fields[i], types[i]
         key = field == :typ ? "type" : string(field)
         args[i] = :(extract_nullable(data, $key, $T))
     end
-    return :(G($(args...))::G)
+    return :(T($(args...))::T)
 end
 
 
 #############################################
-# Converting GitHubType Dicts to JSON Dicts #
+# Converting TM1Type Dicts to JSON Dicts #
 #############################################
 
-github2json(val) = val
-github2json(uri::HTTP.URI) = string(uri)
-github2json(dt::Dates.DateTime) = string(dt) * "Z"
-github2json(v::Vector) = [github2json(i) for i in v]
+tm12json(val) = val
+tm12json(uri::HTTP.URI) = string(uri)
+tm12json(dt::Dates.DateTime) = string(dt) * "Z"
+tm12json(v::Vector) = [tm12json(i) for i in v]
 
-function github2json(g::GitHubType)
+function tm12json(g::TM1Type)
     results = Dict()
     for field in fieldnames(typeof(g))
         val = getfield(g, field)
         if val !== nothing
             key = field == :typ ? "type" : string(field)
-            results[key] = github2json(val)
+            results[key] = tm12json(val)
         end
     end
     return results
 end
 
-function github2json(data::Dict{K}) where {K}
+function tm12json(data::Dict{K}) where {K}
     results = Dict{K,Any}()
     for (key, val) in data
-        results[key] = github2json(val)
+        results[key] = tm12json(val)
     end
     return results
 end
@@ -166,7 +167,7 @@ end
 # Pretty Printing #
 ###################
 
-function Base.show(io::IO, g::GitHubType)
+function Base.show(io::IO, g::TM1Type)
     if get(io, :compact, false)
         uri_id = namefield(g)
         if uri_id === nothing

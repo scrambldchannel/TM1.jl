@@ -4,10 +4,14 @@ module TM1
 # Using #
 #########
 
-# Here I am just going to use these two modules until I see a realise to do something more complicated
-using HTTP
-using JSON
+using Dates
+using Base64
 
+import HTTP,
+       JSON,
+       MbedTLS,
+       Sockets
+       
 ########
 # init #
 ########
@@ -39,3 +43,4 @@ include("ping/ping.jl")
 export # ping.jl
        ping
 
+end #Module
