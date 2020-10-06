@@ -1,9 +1,5 @@
 module TM1
 
-#########
-# Using #
-#########
-
 using Dates
 using Base64
 
@@ -11,22 +7,12 @@ import HTTP,
        JSON,
        MbedTLS,
        Sockets
-       
-########
-# init #
-########
 
 # potentially set some high level constants Here
-
-#############
-# Utilities #
-#############
 
 include("utils/requests.jl")
 include("utils/TM1Type.jl")
 include("utils/auth.jl")
-
-# export -------
 
 export # auth.jl
        authenticate
@@ -34,9 +20,7 @@ export # auth.jl
 export # requests.jl
        rate_limit
 
-########
-# Ping #
-########
+# start including my code
 
 include("ping/ping.jl")
 
