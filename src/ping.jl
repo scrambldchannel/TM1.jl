@@ -29,7 +29,7 @@ function ping(connection)
     endpoint = ""
     headers = ""
 
-    response = get_request(connection.ssl, connection.host, connection.port, 1, endpoint, headers)
+    response = ping(connection, 1)
     return response
 
 end
