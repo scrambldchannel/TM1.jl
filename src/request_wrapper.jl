@@ -1,9 +1,8 @@
 using HTTP
 
-
-function get_request(url, headers)
+function get_request(url, headers, body)
     try
-        response = HTTP.get(url)
+        response = HTTP.get(url, headers, body)
         return response
     catch e
         return "Something is borked, sorry: $e"
@@ -11,7 +10,7 @@ function get_request(url, headers)
     
 end
 
-function get_request(ssl, host, port, api_version, endpoint, headers)
+function get_request(ssl, host, port, api_version, endpoint, headers, body)
     
     if ssl
         protocol = "https://"
@@ -25,6 +24,6 @@ function get_request(ssl, host, port, api_version, endpoint, headers)
 
     url = protocol * host * ":" * port * "/api/v" * string(api_version) * "/" * endpoint 
 
-    return get_request(url, headers)
+    return get_request(url, headers, body)
     
 end
