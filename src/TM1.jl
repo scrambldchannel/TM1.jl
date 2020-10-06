@@ -1,0 +1,64 @@
+module TM1
+
+#########
+# Using #
+#########
+
+# Here I am just going to use these two modules until I see a realise to do something more complicated
+using HTTP
+using JSON
+
+########
+# init #
+########
+
+# potentially set some high level constants Here
+
+#############
+# Utilities #
+#############
+
+include("utils/requests.jl")
+include("utils/TM1Type.jl")
+include("utils/auth.jl")
+
+# export -------
+
+export # auth.jl
+       authenticate
+
+export # requests.jl
+       rate_limit
+
+##################################
+# Owners (organizations + users) #
+##################################
+
+# include -------
+
+include("owners/owners.jl")
+
+# export -------
+
+export # owners.jl
+       Owner,
+       owner,
+       orgs,
+       users,
+       followers,
+       following,
+       repos
+
+##################################
+# Teams                          #
+##################################
+
+# include -------
+
+include("owners/teams.jl")
+
+# export -------
+
+export # teams.jl
+       Team,
+       members
