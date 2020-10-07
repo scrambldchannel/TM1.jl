@@ -18,7 +18,6 @@ export # auth.jl
        authenticate
 
 export # requests.jl
-       rate_limit
 
 # start including my code
 

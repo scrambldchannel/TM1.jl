@@ -82,12 +82,6 @@ tm1_put_json(api::TM1API, endpoint = ""; options...) = JSON.parse(HTTP.payload(t
 tm1_delete_json(api::TM1API, endpoint = ""; options...) = JSON.parse(HTTP.payload(tm1_delete(api, endpoint; options...), String))
 tm1_patch_json(api::TM1API, endpoint = ""; options...) = JSON.parse(HTTP.payload(tm1_patch(api, endpoint; options...), String))
 
-#################
-# Rate Limiting #
-#################
-
-@api_default rate_limit(api::TM1API; options...) = tm1_get_json(api, "/rate_limit"; options...)
-
 ##############
 # Pagination #
 ##############
