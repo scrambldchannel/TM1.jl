@@ -27,4 +27,10 @@ include("ping/ping.jl")
 export # ping.jl
        ping
 
+include("cubes/cubes.jl")
+
+export # cubes.jl
+       list_all_cubes
+
+
 end #Module
