@@ -17,19 +17,28 @@ include("utils/auth.jl")
 export # auth.jl
        authenticate
 
-export # requests.jl
+#export # requests.jl - 
 
-# start including my code
+# simple utility, not needing authentication
 
 include("ping/ping.jl")
 
 export # ping.jl
        ping
 
+# basic endpoints
+
+include("dimensions/dimensions.jl")
 include("cubes/cubes.jl")
+include("processes/processes.jl")
 
 export # cubes.jl
-       list_all_cubes
+       cubes_all
 
+export # dimensions.jl
+       dimensions_all
 
+export # processes.jl
+       processes_all
+       
 end #Module
