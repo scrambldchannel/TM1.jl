@@ -2,6 +2,14 @@
     tm1_get_json(api, "Cubes"; options...)
 end
 
+@api_default function cubes_all_model(api::TM1API; options...)
+    tm1_get_json(api, "ModelCubes()"; options...)
+end
+
+@api_default function cubes_all_control(api::TM1API; options...)
+    tm1_get_json(api, "ControlCubes()"; options...)
+end
+
 @api_default function cube_by_name(api::TM1API, cube_name::AbstractString; options...)
     tm1_get_json(api, "Cubes('" * cube_name * " ')"; options...)
 end

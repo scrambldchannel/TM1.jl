@@ -34,6 +34,8 @@ include("processes/processes.jl")
 
 export # cubes.jl
        cubes_all,
+       cubes_all_model,
+       cubes_all_control,
        cube_by_name,
        cube_delete
 
