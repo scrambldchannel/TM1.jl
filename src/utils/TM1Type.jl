@@ -8,7 +8,7 @@ API. Generally:
    the JSON object has a "type" key, the corresponding field name used should be `typ`
    (since `type` is a reserved word in Julia).
 
- - The method `name` should be defined on every `TM1Type`. This method returns the
+ - The method `namefield` should be defined on every `TM1Type`. This method returns the
    type's identity in the form used for URI construction.
 
  - A TM1Type's field types should be Union{Nothing, T} of either: concrete types, a
@@ -24,7 +24,9 @@ Define a new `TM1Type` specified by `typeexpr`, adding default constructors for
 conversions from `Dict`s and keyword arguments.
 """
 
-# this is a bit of a black box for me and I don't think it's working as it should
+# this is a bit of a black box for me and I don't think it's working as it should as
+# the constructors for the new types I've defined don't seem to work 
+
 macro tm1def(expr)
     # a very simplified form of Base.@kwdef
     expr = macroexpand(__module__, expr) # to expand @static
@@ -147,7 +149,7 @@ tm12json(v::Vector) = [tm12json(i) for i in v]
 
 function tm12json(t::TM1Type)
     results = Dict()
-    for field in fieldnames(typeof(g))
+    for field in fieldnames(typeof(t))
         val = getfield(t, field)
         if val !== nothing
             key = field == :typ ? "type" : string(field)
