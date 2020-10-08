@@ -6,4 +6,6 @@ end
     tm1_get_json(api, "Cubes('" * cube_name * " ')"; options...)
 end
 
-
+@api_default function cube_delete(api::TM1API, cube_name::AbstractString; options...)
+    tm1_delete(api, "Cubes('" * cube_name * "')"; options...)
+end

@@ -6,3 +6,6 @@ end
     tm1_get_json(api, "Dimensions('" * dimension_name * "')"; options...)
 end
 
+@api_default function dimension_delete(api::TM1API, dimension_name::AbstractString; options...)
+    tm1_delete(api, "Dimensions('" * dimension_name * "')"; options...)
+end

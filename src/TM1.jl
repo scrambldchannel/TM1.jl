@@ -34,14 +34,17 @@ include("processes/processes.jl")
 
 export # cubes.jl
        cubes_all,
-       cube_by_name
+       cube_by_name,
+       cube_delete
 
 export # dimensions.jl
        dimensions_all,
-       dimension_by_name
+       dimension_by_name,
+       dimension_delete
 
 export # processes.jl
        processes_all,
-       process_by_name
+       process_by_name,
+       process_delete
        
 end #Module
