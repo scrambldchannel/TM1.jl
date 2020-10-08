@@ -7,5 +7,5 @@ end
 end
 
 @api_default function cube_delete(api::TM1API, cube_name::AbstractString; options...)
-    tm1_delete(api, "cubes('" * cube_name * "')"; options...)
+    tm1_delete(api, "Cubes('" * cube_name * "')"; options...)
 end
