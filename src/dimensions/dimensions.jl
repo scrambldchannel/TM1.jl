@@ -10,7 +10,6 @@ end
     tm1_get_json(api, "ControlDimensions()"; options...)
 end
 
-
 @api_default function dimension_by_name(api::TM1API, dimension_name::AbstractString; options...)
     tm1_get_json(api, "Dimensions('" * dimension_name * "')"; options...)
 end
