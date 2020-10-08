@@ -41,6 +41,8 @@ export # cubes.jl
 
 export # dimensions.jl
        dimensions_all,
+       dimensions_all_model,
+       dimensions_all_control,
        dimension_by_name,
        dimension_delete
 
