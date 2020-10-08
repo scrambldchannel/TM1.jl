@@ -8,7 +8,7 @@ API. Generally:
    the JSON object has a "type" key, the corresponding field name used should be `typ`
    (since `type` is a reserved word in Julia).
 
- - The method `name` should be defined on every `TM1Type`. This method returns the
+ - The method `namefield` should be defined on every `TM1Type`. This method returns the
    type's identity in the form used for URI construction.
 
  - A TM1Type's field types should be Union{Nothing, T} of either: concrete types, a
@@ -23,6 +23,7 @@ abstract type TM1Type end
 Define a new `TM1Type` specified by `typeexpr`, adding default constructors for
 conversions from `Dict`s and keyword arguments.
 """
+
 macro tm1def(expr)
     # a very simplified form of Base.@kwdef
     expr = macroexpand(__module__, expr) # to expand @static
@@ -70,7 +71,7 @@ end
 # `namefield` is overloaded by various TM1Types to allow for more generic
 # input to AP functions that require a name to construct URI paths via `name`
 name(val) = val
-name(g::TM1Type) = namefield(g)
+name(t::TM1Type) = namefield(t)
 
 ########################################
 # Converting JSON Dicts to TM1Types #
@@ -143,10 +144,10 @@ tm12json(uri::HTTP.URI) = string(uri)
 tm12json(dt::Dates.DateTime) = string(dt) * "Z"
 tm12json(v::Vector) = [tm12json(i) for i in v]
 
-function tm12json(g::TM1Type)
+function tm12json(t::TM1Type)
     results = Dict()
-    for field in fieldnames(typeof(g))
-        val = getfield(g, field)
+    for field in fieldnames(typeof(t))
+        val = getfield(t, field)
         if val !== nothing
             key = field == :typ ? "type" : string(field)
             results[key] = tm12json(val)
@@ -167,18 +168,18 @@ end
 # Pretty Printing #
 ###################
 
-function Base.show(io::IO, g::TM1Type)
+function Base.show(io::IO, t::TM1Type)
     if get(io, :compact, false)
-        uri_id = namefield(g)
+        uri_id = namefield(t)
         if uri_id === nothing
-            print(io, typeof(g), "(…)")
+            print(io, typeof(t), "(…)")
         else
-            print(io, typeof(g), "($(repr(uri_id)))")
+            print(io, typeof(t), "($(repr(uri_id)))")
         end
     else
-        print(io, "$(typeof(g)) (all fields are Union{Nothing, T}):")
-        for field in fieldnames(typeof(g))
-            val = getfield(g, field)
+        print(io, "$(typeof(t)) (all fields are Union{Nothing, T}):")
+        for field in fieldnames(typeof(t))
+            val = getfield(t, field)
             if !(val === nothing)
                 println(io)
                 print(io, "  $field: ")
