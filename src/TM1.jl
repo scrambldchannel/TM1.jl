@@ -33,12 +33,15 @@ include("cubes/cubes.jl")
 include("processes/processes.jl")
 
 export # cubes.jl
-       cubes_all
+       cubes_all,
+       cube_by_name
 
 export # dimensions.jl
-       dimensions_all
+       dimensions_all,
+       dimension_by_name
 
 export # processes.jl
-       processes_all
+       processes_all,
+       process_by_name
        
 end #Module
