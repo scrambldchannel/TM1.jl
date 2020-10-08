@@ -1,3 +1,14 @@
+@tm1def mutable struct Dimension
+    Name::Union{String, Nothing}
+    UniqueName::Union{String, Nothing}
+    # fill in the rest later
+end
+
+Dimension(name::AbstractString) = Dimension(Dict("Name" => name))
+
+namefield(dimension::Dimension) = dimension.Name
+
+
 @api_default function dimensions_all(api::TM1API; options...)
     tm1_get_json(api, "Dimensions"; options...)
 end
