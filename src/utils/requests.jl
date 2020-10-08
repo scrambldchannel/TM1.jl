@@ -9,6 +9,7 @@ or a mock API for testing purposes
 abstract type TM1API end
 
 struct TM1WebAPI <: TM1API
+    # could maybe change this to take host, port and ssl and construct the URI
     endpoint::HTTP.URI
 end
 
@@ -46,11 +47,7 @@ end
 ####################
 
 function api_uri(api::TM1WebAPI, path)
-    merge(api.endpoint, path = api.endpoint.path * path)
-end
-
-function api_uri(api::TM1API, path)
-    error("URI retrieval not implemented for this API type")
+    merge(api.endpoint, path = api.endpoint.path * HTTP.URIs.escapepath(path))
 end
 
 function tm1_request(api::TM1API, request_method, endpoint;
