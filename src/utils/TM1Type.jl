@@ -24,9 +24,6 @@ Define a new `TM1Type` specified by `typeexpr`, adding default constructors for
 conversions from `Dict`s and keyword arguments.
 """
 
-# this is a bit of a black box for me and I don't think it's working as it should as
-# the constructors for the new types I've defined don't seem to work 
-
 macro tm1def(expr)
     # a very simplified form of Base.@kwdef
     expr = macroexpand(__module__, expr) # to expand @static

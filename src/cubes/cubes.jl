@@ -14,7 +14,6 @@
     LocalizedAttributes::Union{String, Nothing}
 end
 
-# this doesn't seem to work, not sure why, similar thing works for dimension
 Cube(name::AbstractString) = Cube(Dict("Name" => name))
 
 namefield(cube::Cube) = cube.Name
