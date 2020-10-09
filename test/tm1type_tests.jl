@@ -63,7 +63,7 @@
         Dates.DateTime("2020-10-09T06:15:58.169"),
         Dates.DateTime("2020-10-09T06:15:58.169"),
         attributes,
-        [dim_1, dim_2],
+        [Dimension(dim_1), Dimension(dim_2)],
         nothing,
         nothing,
         nothing,
@@ -101,9 +101,21 @@ end
 
 @testset "Dimension" begin
 
-    dimension_result = Dimension("Dim 1", "[Dim 1]")
+    dimension_result = Dimension("Dim 1")
     @test dimension_result.Name == "Dim 1"
     @test name(dimension_result) == "Dim 1"
 
+    dim_2 = JSON.parse("""
+    {
+      "Name": "Dim 2",
+      "UniqueName": "[Dim 2]",
+      "Attributes": {
+        "Caption": "Dim 2"
+      }
+    }
+""")
+
+    @test name(Dimension(dim_2)) == "Dim 2"
+    @test Dimension(dim_2) != dimension_result
 
 end

@@ -6,7 +6,7 @@
     LastSchemaUpdate::Union{Dates.DateTime,Nothing}
     LastDataUpdate::Union{Dates.DateTime,Nothing}
     Attributes::Union{Dict,Nothing}
-    Dimensions::Union{Vector,Nothing}
+    Dimensions::Union{Vector{Dimension},Nothing}
     Views::Union{Vector,Nothing}
     ViewAttributes::Union{Vector,Nothing}
     PrivateViews::Union{Vector,Nothing}
@@ -50,6 +50,7 @@ end
     tm1_delete(api, "Cubes('" * cube_name * "')"; options...)
 end
 
-@api_default function cube_create(api::TM1API, cube_name::AbstractString; options...)
-    tm1_put(api, "Cubes('" * cube_name * "')"; options...)
+# is this the best way to achieve this? 
+@api_default function cube_delete(api::TM1API, cube::Cube; options...)
+    cube_delete(api, name(cube); options...)
 end
