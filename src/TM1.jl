@@ -27,10 +27,14 @@ include("dimensions/dimensions.jl")
 include("cubes/cubes.jl")
 include("processes/processes.jl")
 
-export cubes_all, cubes_all_model, cubes_all_control, cube_by_name, cube_delete
+export Cube, cubes_all, cubes_all_model, cubes_all_control, cube_by_name, cube_delete
 
-export dimensions_all,
-    dimensions_all_model, dimensions_all_control, dimension_by_name, dimension_delete
+export Dimension,
+    dimensions_all,
+    dimensions_all_model,
+    dimensions_all_control,
+    dimension_by_name,
+    dimension_delete
 
 export processes_all, process_by_name, process_delete
 
