@@ -26,7 +26,12 @@ struct AnonymousAuth <: Authorization end
     return auth
 end
 
-@api_default function authenticate(api::TM1API, username::AbstractString, password::AbstractString; options...)
+@api_default function authenticate(
+    api::TM1API,
+    username::AbstractString,
+    password::AbstractString;
+    options...,
+)
     auth = UsernamePassAuth(username, password)
     tm1_get(api, "/"; auth = auth, options...)
     return auth

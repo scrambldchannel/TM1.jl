@@ -28,18 +28,29 @@ that just calls the method with DEFAULT_API.
 macro api_default(func)
     call = func.args[1]
     has_kwargs = isexpr(call.args[2], :parameters)
-    newcall = Expr(:call, call.args[1], (has_kwargs ?
-        [Expr(:parameters, Expr(:..., :kwargs)); call.args[4:end]] : call.args[3:end])...)
+    newcall = Expr(
+        :call,
+        call.args[1],
+        (
+            has_kwargs ? [Expr(:parameters, Expr(:..., :kwargs)); call.args[4:end]] :
+            call.args[3:end]
+        )...,
+    )
     argnames = map(has_kwargs ? call.args[4:end] : call.args[3:end]) do expr
         isexpr(expr, :kw) && (expr = expr.args[1])
         isexpr(expr, Symbol("::")) && return expr.args[1]
         @assert isa(expr, Symbol)
         return expr
     end
-    esc(Expr(:toplevel, :(Base.@__doc__ $func),
-        Expr(:function, newcall, Expr(:block,
-            :($(call.args[1])(DEFAULT_API, $(argnames...);kwargs...))
-        ))))
+    esc(Expr(
+        :toplevel,
+        :(Base.@__doc__ $func),
+        Expr(
+            :function,
+            newcall,
+            Expr(:block, :($(call.args[1])(DEFAULT_API, $(argnames...); kwargs...))),
+        ),
+    ))
 end
 
 ####################
@@ -50,45 +61,75 @@ function api_uri(api::TM1WebAPI, path)
     merge(api.endpoint, path = api.endpoint.path * HTTP.URIs.escapepath(path))
 end
 
-function tm1_request(api::TM1API, request_method, endpoint;
-                        auth = AnonymousAuth(), handle_error = true,
-                        headers = Dict(), params = Dict(), allowredirects = true)
+function tm1_request(
+    api::TM1API,
+    request_method,
+    endpoint;
+    auth = AnonymousAuth(),
+    handle_error = true,
+    headers = Dict(),
+    params = Dict(),
+    allowredirects = true,
+)
     authenticate_headers!(headers, auth)
     params = tm12json(params)
     api_endpoint = api_uri(api, endpoint)
-    _headers = convert(Dict{String, String}, headers)
+    _headers = convert(Dict{String,String}, headers)
     !haskey(_headers, "User-Agent") && (_headers["User-Agent"] = "TM1-jl")
     if request_method == HTTP.get
-        r = request_method(merge(api_endpoint, query = params), _headers, redirect = allowredirects, status_exception = false, idle_timeout=20)
+        r = request_method(
+            merge(api_endpoint, query = params),
+            _headers,
+            redirect = allowredirects,
+            status_exception = false,
+            idle_timeout = 20,
+        )
     else
-        r = request_method(string(api_endpoint), _headers, JSON.json(params), redirect = allowredirects, status_exception = false, idle_timeout=20)
+        r = request_method(
+            string(api_endpoint),
+            _headers,
+            JSON.json(params),
+            redirect = allowredirects,
+            status_exception = false,
+            idle_timeout = 20,
+        )
     end
     handle_error && handle_response_error(r)
     return r
 end
 
-tm1_get(api::TM1API, endpoint = ""; options...) = tm1_request(api, HTTP.get, endpoint; options...)
-tm1_post(api::TM1API, endpoint = ""; options...) = tm1_request(api, HTTP.post, endpoint; options...)
-tm1_put(api::TM1API, endpoint = ""; options...) = tm1_request(api, HTTP.put, endpoint; options...)
-tm1_delete(api::TM1API, endpoint = ""; options...) = tm1_request(api, HTTP.delete, endpoint; options...)
-tm1_patch(api::TM1API, endpoint = ""; options...) = tm1_request(api, HTTP.patch, endpoint; options...)
+tm1_get(api::TM1API, endpoint = ""; options...) =
+    tm1_request(api, HTTP.get, endpoint; options...)
+tm1_post(api::TM1API, endpoint = ""; options...) =
+    tm1_request(api, HTTP.post, endpoint; options...)
+tm1_put(api::TM1API, endpoint = ""; options...) =
+    tm1_request(api, HTTP.put, endpoint; options...)
+tm1_delete(api::TM1API, endpoint = ""; options...) =
+    tm1_request(api, HTTP.delete, endpoint; options...)
+tm1_patch(api::TM1API, endpoint = ""; options...) =
+    tm1_request(api, HTTP.patch, endpoint; options...)
 
-tm1_get_json(api::TM1API, endpoint = ""; options...) = JSON.parse(HTTP.payload(tm1_get(api, endpoint; options...), String))
-tm1_post_json(api::TM1API, endpoint = ""; options...) = JSON.parse(HTTP.payload(tm1_post(api, endpoint; options...), String))
-tm1_put_json(api::TM1API, endpoint = ""; options...) = JSON.parse(HTTP.payload(tm1_put(api, endpoint; options...), String))
-tm1_delete_json(api::TM1API, endpoint = ""; options...) = JSON.parse(HTTP.payload(tm1_delete(api, endpoint; options...), String))
-tm1_patch_json(api::TM1API, endpoint = ""; options...) = JSON.parse(HTTP.payload(tm1_patch(api, endpoint; options...), String))
+tm1_get_json(api::TM1API, endpoint = ""; options...) =
+    JSON.parse(HTTP.payload(tm1_get(api, endpoint; options...), String))
+tm1_post_json(api::TM1API, endpoint = ""; options...) =
+    JSON.parse(HTTP.payload(tm1_post(api, endpoint; options...), String))
+tm1_put_json(api::TM1API, endpoint = ""; options...) =
+    JSON.parse(HTTP.payload(tm1_put(api, endpoint; options...), String))
+tm1_delete_json(api::TM1API, endpoint = ""; options...) =
+    JSON.parse(HTTP.payload(tm1_delete(api, endpoint; options...), String))
+tm1_patch_json(api::TM1API, endpoint = ""; options...) =
+    JSON.parse(HTTP.payload(tm1_patch(api, endpoint; options...), String))
 
 ##############
 # Pagination #
 ##############
 
 has_page_links(r) = HTTP.hasheader(r, "Link")
-get_page_links(r) = split(HTTP.header(r, "Link",), ",")
+get_page_links(r) = split(HTTP.header(r, "Link"), ",")
 
 function find_page_link(links, rel)
     relstr = "rel=\"$(rel)\""
-    for i in 1:length(links)
+    for i = 1:length(links)
         if occursin(relstr, links[i])
             return i
         end
@@ -98,19 +139,36 @@ end
 
 extract_page_url(link) = match(r"<.*?>", link).match[2:end-1]
 
-function tm1_paged_get(api, endpoint; page_limit = Inf, start_page = "", handle_error = true,
-                          auth = AnonymousAuth(), headers = Dict(), params = Dict(), options...)
+function tm1_paged_get(
+    api,
+    endpoint;
+    page_limit = Inf,
+    start_page = "",
+    handle_error = true,
+    auth = AnonymousAuth(),
+    headers = Dict(),
+    params = Dict(),
+    options...,
+)
     authenticate_headers!(headers, auth)
-    _headers = convert(Dict{String, String}, headers)
+    _headers = convert(Dict{String,String}, headers)
     !haskey(_headers, "User-Agent") && (_headers["User-Agent"] = "TM1-jl")
     if isempty(start_page)
-        r = tm1_get(api, endpoint; handle_error = handle_error, headers = _headers, params = params, auth=auth, options...)
+        r = tm1_get(
+            api,
+            endpoint;
+            handle_error = handle_error,
+            headers = _headers,
+            params = params,
+            auth = auth,
+            options...,
+        )
     else
         @assert isempty(params) "`start_page` kwarg is incompatible with `params` kwarg"
         r = HTTP.get(start_page, headers = _headers)
     end
     results = HTTP.Response[r]
-    page_data = Dict{String, String}()
+    page_data = Dict{String,String}()
     if has_page_links(r)
         page_count = 1
         while page_count < page_limit
@@ -166,12 +224,13 @@ function handle_response_error(r::HTTP.Response)
             errors = get(data, "errors", "")
         catch
         end
-        error("Error found in TM1 reponse:\n",
-              "\tStatus Code: $(r.status)\n",
-              ((isempty(message) && isempty(errors)) ?
-               ("\tBody: $body",) :
-               ("\tMessage: $message\n",
-                "\tDocs URL: $docs_url\n",
-                "\tErrors: $errors"))...)
+        error(
+            "Error found in TM1 reponse:\n",
+            "\tStatus Code: $(r.status)\n",
+            (
+                (isempty(message) && isempty(errors)) ? ("\tBody: $body",) :
+                ("\tMessage: $message\n", "\tDocs URL: $docs_url\n", "\tErrors: $errors")
+            )...,
+        )
     end
 end

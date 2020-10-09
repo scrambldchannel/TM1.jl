@@ -27,7 +27,8 @@ conversions from `Dict`s and keyword arguments.
 macro tm1def(expr)
     # a very simplified form of Base.@kwdef
     expr = macroexpand(__module__, expr) # to expand @static
-    expr isa Expr && expr.head == :struct && expr.args[2] isa Symbol || error("Invalid usage of @tm1type")
+    expr isa Expr && expr.head == :struct && expr.args[2] isa Symbol ||
+        error("Invalid usage of @tm1type")
     T = expr.args[2]
     expr.args[2] = :($T <: TM1Type)
 
@@ -37,9 +38,12 @@ macro tm1def(expr)
     for ei in expr.args[3].args
         if ei isa Expr && ei.head == :(::)
             var = ei.args[1]
-            S  = ei.args[2]
+            S = ei.args[2]
             push!(params_ex.args, Expr(:kw, var, nothing))
-            push!(call_args, :($var === nothing ? $var : prune_tm1_value($var, unwrap_union_types($S))))
+            push!(
+                call_args,
+                :($var === nothing ? $var : prune_tm1_value($var, unwrap_union_types($S))),
+            )
         end
     end
     quote

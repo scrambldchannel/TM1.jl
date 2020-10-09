@@ -1,6 +1,6 @@
 @tm1def mutable struct Dimension
-    Name::Union{String, Nothing}
-    UniqueName::Union{String, Nothing}
+    Name::Union{String,Nothing}
+    UniqueName::Union{String,Nothing}
     # fill in the rest later
 end
 
@@ -20,10 +20,18 @@ end
     tm1_get_json(api, "ControlDimensions()"; options...)
 end
 
-@api_default function dimension_by_name(api::TM1API, dimension_name::AbstractString; options...)
+@api_default function dimension_by_name(
+    api::TM1API,
+    dimension_name::AbstractString;
+    options...,
+)
     tm1_get_json(api, "Dimensions('" * dimension_name * "')"; options...)
 end
 
-@api_default function dimension_delete(api::TM1API, dimension_name::AbstractString; options...)
+@api_default function dimension_delete(
+    api::TM1API,
+    dimension_name::AbstractString;
+    options...,
+)
     tm1_delete(api, "Dimensions('" * dimension_name * "')"; options...)
 end
