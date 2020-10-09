@@ -13,7 +13,7 @@ struct TM1WebAPI <: TM1API
     endpoint::HTTP.URI
 end
 
-const DEFAULT_API = TM1WebAPI(HTTP.URI("http://192.168.56.101:8015/api/v1/"))
+const DEFAULT_API = TM1WebAPI(HTTP.URI("http://localhost:12345/api/v1/"))
 
 using Base.Meta
 
