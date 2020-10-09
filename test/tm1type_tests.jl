@@ -6,42 +6,37 @@
 
 
 @testset "Cube" begin
-    cube_json_string = JSON.parse(
-    """
-    {
-      "@odata.context": "\$metadata#Cubes(Dimensions)/\$entity",
-      "Name": "Test",
-      "Rules": "SKIPCHECK;\\n\\n#['test_dim':'test1'] = N: 1;",
-      "LastSchemaUpdate": "2020-10-09T06:15:58.169Z",
-      "LastDataUpdate": "2020-10-09T06:15:58.169Z",
-      "Attributes": {
-        "Caption": "Test"
-      },
-      "Dimensions": [
-        {
-          "Name": "Dim 1",
-          "UniqueName": "[Dim 1]",
-          "Attributes": {
-            "Caption": "Dim 1"
-          }
-        },
-        {
-          "Name": "Dim 2",
-          "UniqueName": "[Dim 2]",
-          "Attributes": {
-            "Caption": "Dim 2"
-          }
-        }
-      ]
-    }
-    """
-    )
+    cube_json_string = JSON.parse("""
+                                  {
+                                    "@odata.context": "\$metadata#Cubes(Dimensions)/\$entity",
+                                    "Name": "Test",
+                                    "Rules": "SKIPCHECK;\\n\\n#['test_dim':'test1'] = N: 1;",
+                                    "LastSchemaUpdate": "2020-10-09T06:15:58.169Z",
+                                    "LastDataUpdate": "2020-10-09T06:15:58.169Z",
+                                    "Attributes": {
+                                      "Caption": "Test"
+                                    },
+                                    "Dimensions": [
+                                      {
+                                        "Name": "Dim 1",
+                                        "UniqueName": "[Dim 1]",
+                                        "Attributes": {
+                                          "Caption": "Dim 1"
+                                        }
+                                      },
+                                      {
+                                        "Name": "Dim 2",
+                                        "UniqueName": "[Dim 2]",
+                                        "Attributes": {
+                                          "Caption": "Dim 2"
+                                        }
+                                      }
+                                    ]
+                                  }
+                                  """)
 
-    cube_result = TM1.Cube(
-      "Test",
-      "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;",
-      ["Dim 1", "Dim 2"]
-    )
+    cube_result =
+        TM1.Cube("Test", "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;", ["Dim 1", "Dim 2"])
 
     @test cube_result.Name == "Test"
     @test cube_result.Rules == "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;"
@@ -55,4 +50,3 @@
     #    @test name(cube_json) == name(cube_result)
 
 end
-
