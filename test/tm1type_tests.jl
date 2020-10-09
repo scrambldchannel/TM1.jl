@@ -85,12 +85,17 @@
     @test cube_json == cube_result
 
     cube_as_dict = Cube(Dict(
-        "Name" => "Yet another cube",
-        "Dimensions" => [dim_1, dim_2],
-        "DrillThroughRules" => nothing,
+      "LastDataUpdate"    => "2020-10-09T17:30:34.063Z",
+      "Rules"             => nothing,
+      "Attributes"        => Dict{String,Any}("Caption"=>"}Capabilities"),
+      "LastSchemaUpdate"  => "2020-10-09T17:30:34.063Z",
+      "DrillthroughRules" => nothing,
+      "Name"              => "}Capabilities",
+      "@odata.etag"       => "W/\"98079d38abe094b7ecaaf37b3519525df0abb891\"",
+    
     ))
 
-    @test name(cube_as_dict) == "Yet another cube"
+    @test name(cube_as_dict) == "}Capabilities"
 
 
 end
