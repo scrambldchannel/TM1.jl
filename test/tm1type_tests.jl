@@ -35,34 +35,50 @@
                                   }
                                   """)
 
+    dim_1 = JSON.parse("""
+                      {
+                        "Name": "Dim 1",
+                        "UniqueName": "[Dim 1]",
+                        "Attributes": {
+                          "Caption": "Dim 1"
+                        }
+                      }
+    """)
+
+    dim_2 = JSON.parse("""
+                      {
+                        "Name": "Dim 2",
+                        "UniqueName": "[Dim 2]",
+                        "Attributes": {
+                          "Caption": "Dim 2"
+                        }
+                      }
+    """)
+
+
     cube_result =
-        Cube("Test", "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;", ["Dim 1", "Dim 2"])
+        Cube("Test", "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;", [dim_1, dim_2])
 
     @test cube_result.Name == "Test"
     @test cube_result.Rules == "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;"
     @test cube_result.Dimensions isa Vector
+    @test name(cube_result) == "Test"
 
     cube_single_arg_constructor = Cube("Another Test")
-    @test cube_single_arg_constructor.Name == "Another Test"
+    @test name(cube_single_arg_constructor) == "Another Test"
 
-    # not working
-    #        @test Cube.namefield(cube_result) == "Test"
-    #        @test name(cube_result) == "Test"
-
-    #    cube_json = TM1.Cube(cube_json_string) 
-    #    @test cube_json == cube_result
-    #    @test name(cube_json) == name(cube_result)
+    cube_json = Cube(cube_json_string)
+    
+    @test name(cube_json) == name(cube_result)
+    @test cube_json == cube_result
 
 end
 
 @testset "Dimension" begin
 
     dimension_result = Dimension("Dim 1", "[Dim 1]")
-
     @test dimension_result.Name == "Dim 1"
-
-    # not working
-    #@test name(dimension_result) == "Dim 1"
+    @test name(dimension_result) == "Dim 1"
 
 
 end

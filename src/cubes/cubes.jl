@@ -4,7 +4,7 @@
     # start with very simple representation
     Name::Union{String,Nothing}
     Rules::Union{String,Nothing}
-    Dimensions::Union{Vector{String},Nothing}
+    Dimensions::Union{Vector,Nothing}
 end
 
 Cube(name::AbstractString) = Cube(Dict("Name" => name))

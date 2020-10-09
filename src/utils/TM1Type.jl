@@ -18,7 +18,7 @@ Vectors of concrete types, or Dicts.
 abstract type TM1Type end
 
 """
-@ghdef typeexpr
+@tm1def typeexpr
 
 Define a new `TM1Type` specified by `typeexpr`, adding default constructors for
 conversions from `Dict`s and keyword arguments.
