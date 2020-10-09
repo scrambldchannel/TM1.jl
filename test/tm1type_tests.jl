@@ -68,7 +68,7 @@
     @test name(cube_single_arg_constructor) == "Another Test"
 
     cube_json = Cube(cube_json_string)
-    
+
     @test name(cube_json) == name(cube_result)
     @test cube_json == cube_result
 
