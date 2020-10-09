@@ -73,6 +73,14 @@
     @test name(cube_json) == name(cube_result)
     @test cube_json == cube_result
 
+    cube_as_dict = Cube(Dict("Name" => "Yet another cube",
+                        "Dimensions" => [dim_1, dim_2],
+                        "DrillThroughRules" => nothing
+    ))
+
+    @test name(cube_as_dict) == "Yet another cube"
+
+
 end
 
 @testset "Dimension" begin
