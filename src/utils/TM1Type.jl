@@ -1,29 +1,28 @@
 """
-    abstract type TM1 end
+abstract type TM1Type end
 
 A `TM1Type` is a Julia type representation of a JSON object defined by the TM1
 API. Generally:
 
- - The fields of these types should correspond to keys in the JSON object. In the event
-   the JSON object has a "type" key, the corresponding field name used should be `typ`
-   (since `type` is a reserved word in Julia).
+- The fields of these types should correspond to keys in the JSON object. In the event
+the JSON object has a "type" key, the corresponding field name used should be `typ`
+(since `type` is a reserved word in Julia).
 
- - The method `namefield` should be defined on every `TM1Type`. This method returns the
-   type's identity in the form used for URI construction.
+- The method `namefield` should be defined on every `TM1Type`. This method returns the
+type's identity in the form used for URI construction.
 
- - A TM1Type's field types should be Union{Nothing, T} of either: concrete types, a
-   Vectors of concrete types, or Dicts.
+- A TM1Type's field types should be Union{Nothing, T} of either: concrete types, a
+Vectors of concrete types, or Dicts.
 
 """
 abstract type TM1Type end
 
 """
-    @tm1def typeexpr
+@ghdef typeexpr
 
 Define a new `TM1Type` specified by `typeexpr`, adding default constructors for
 conversions from `Dict`s and keyword arguments.
 """
-
 macro tm1def(expr)
     # a very simplified form of Base.@kwdef
     expr = macroexpand(__module__, expr) # to expand @static
@@ -112,8 +111,10 @@ prune_tm1_value(val::AbstractString, ::Type{Dates.DateTime}) = Dates.DateTime(ch
 
 # ISO 8601 allows for a trailing 'Z' to indicate that the given time is UTC.
 # Julia's Dates.DateTime constructor doesn't support this, but TM1's time
-# strings may (???) contain it. This method ensures that a string's trailing 'Z',
+# strings may (??) contain it. This method ensures that a string's trailing 'Z',
 # if present, has been removed.
+
+# Not sure this is necessary
 function chopz(str::AbstractString)
     if !(isempty(str)) && last(str) == 'Z'
         return chop(str)
@@ -121,21 +122,20 @@ function chopz(str::AbstractString)
     return str
 end
 
-# Calling `json2tm1(::Type{T<:TM1Type}, data::Dict)` will parse the given
-# dictionary into the type `T` with the expectation that the fieldnames of
-# `T` are keys of `data`, and the corresponding values can be converted to the
+# Calling `json2tm1(::Type{TM<:TM1Type}, data::Dict)` will parse the given
+# dictionary into the type `TM` with the expectation that the fieldnames of
+# `TM` are keys of `data`, and the corresponding values can be converted to the
 # given field types.
-
-@generated function json2tm1(::Type{T}, data::Dict) where {T<:TM1Type}
-    types = unwrap_union_types.(collect(T.types))
-    fields = fieldnames(T)
+@generated function json2tm1(::Type{TM}, data::Dict) where {TM<:TM1Type}
+    types = unwrap_union_types.(collect(TM.types))
+    fields = fieldnames(TM)
     args = Vector{Expr}(undef, length(fields))
     for i in eachindex(fields)
         field, T = fields[i], types[i]
         key = field == :typ ? "type" : string(field)
         args[i] = :(extract_nullable(data, $key, $T))
     end
-    return :(T($(args...))::T)
+    return :(TM($(args...))::TM)
 end
 
 
