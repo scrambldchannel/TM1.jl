@@ -1,12 +1,6 @@
+using TM1, JSON, HTTP, MbedTLS
+using Dates, Test, Base64
 using TM1
-using Test
 
-@testset "TM1.jl" begin
-
-    # Simple example test
-    simple_auth = TM1.UsernamePassAuth("admin", "apple")
-    @test simple_auth.username == "admin"
-    @test simple_auth.password == "apple"
-
-
-end
+#include("tm1type_tests.jl")
+include("auth_tests.jl")
