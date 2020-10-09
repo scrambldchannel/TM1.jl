@@ -55,9 +55,10 @@
                       }
     """)
 
+    attributes = Dict("Caption"=>"Test")
 
     cube_result =
-        Cube("Test", "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;", [dim_1, dim_2])
+        Cube("Test", "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;", Dates.DateTime("2020-10-09T06:15:58.169"), Dates.DateTime("2020-10-09T06:15:58.169"), attributes, [dim_1, dim_2], nothing, nothing, nothing,nothing,nothing)
 
     @test cube_result.Name == "Test"
     @test cube_result.Rules == "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;"

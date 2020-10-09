@@ -1,10 +1,17 @@
 # struct to model a cube
 
 @tm1def mutable struct Cube
-    # start with very simple representation
     Name::Union{String,Nothing}
     Rules::Union{String,Nothing}
+    LastSchemaUpdate::Union{Dates.DateTime,Nothing}
+    LastDataUpdate::Union{Dates.DateTime,Nothing}
+    Attributes::Union{Dict,Nothing}
     Dimensions::Union{Vector,Nothing}
+    Views::Union{Vector,Nothing}
+    ViewAttributes::Union{Vector,Nothing}
+    PrivateViews::Union{Vector,Nothing}
+    Annotations::Union{Vector,Nothing}
+    LocalizedAttributes::Union{Vector,Nothing}
 end
 
 Cube(name::AbstractString) = Cube(Dict("Name" => name))
