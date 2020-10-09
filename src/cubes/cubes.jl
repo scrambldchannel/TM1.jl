@@ -50,6 +50,11 @@ end
     tm1_delete(api, "Cubes('" * cube_name * "')"; options...)
 end
 
+# is this the best way to achieve this? 
+@api_default function cube_delete(api::TM1API, cube::Cube; options...)
+    cube_delete(api, name(cube); options...)
+end
+
 @api_default function cube_create(api::TM1API, cube_name::AbstractString; options...)
     tm1_put(api, "Cubes('" * cube_name * "')"; options...)
 end
