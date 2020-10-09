@@ -116,6 +116,6 @@ end
 """)
 
   @test name(Dimension(dim_2)) == "Dim 2"
-
+  @test Dimension(dim_2) != dimension_result
 
 end
