@@ -21,6 +21,8 @@ namefield(cube::Cube) = cube.Name
 # functions for endpoints
 
 @api_default function cubes_all(api::TM1API; options...)
+    # can maybe change these to allow specification of custom parameters
+    # and only use the ones below if nothing specified
     params = Dict(
         "\$expand"=>"Dimensions,Views"
     )
