@@ -55,10 +55,21 @@
                       }
     """)
 
-    attributes = Dict("Caption"=>"Test")
+    attributes = Dict("Caption" => "Test")
 
-    cube_result =
-        Cube("Test", "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;", Dates.DateTime("2020-10-09T06:15:58.169"), Dates.DateTime("2020-10-09T06:15:58.169"), attributes, [dim_1, dim_2], nothing, nothing, nothing,nothing,nothing)
+    cube_result = Cube(
+        "Test",
+        "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;",
+        Dates.DateTime("2020-10-09T06:15:58.169"),
+        Dates.DateTime("2020-10-09T06:15:58.169"),
+        attributes,
+        [dim_1, dim_2],
+        nothing,
+        nothing,
+        nothing,
+        nothing,
+        nothing,
+    )
 
     @test cube_result.Name == "Test"
     @test cube_result.Rules == "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;"
@@ -73,9 +84,10 @@
     @test name(cube_json) == name(cube_result)
     @test cube_json == cube_result
 
-    cube_as_dict = Cube(Dict("Name" => "Yet another cube",
-                        "Dimensions" => [dim_1, dim_2],
-                        "DrillThroughRules" => nothing
+    cube_as_dict = Cube(Dict(
+        "Name" => "Yet another cube",
+        "Dimensions" => [dim_1, dim_2],
+        "DrillThroughRules" => nothing,
     ))
 
     @test name(cube_as_dict) == "Yet another cube"

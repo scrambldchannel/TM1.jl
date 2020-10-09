@@ -21,16 +21,17 @@ namefield(cube::Cube) = cube.Name
 # functions for endpoints
 
 @api_default function cubes_all(api::TM1API; options...)
-    # maybe we should return an array of cube objects?
-    tm1_get_json(api, "Cubes"; options...)
+    result, page_data = tm1_get_paged_json(api, "Cubes"; options...)
+    # not sure why this doesn't work...
+    # map(Cube, get(result, "value", [])), page_data
 end
 
 @api_default function cubes_all_model(api::TM1API; options...)
-    tm1_get_json(api, "ModelCubes()"; options...)
+    result, page_data = tm1_get_paged_json(api, "ModelCubes()"; options...)
 end
 
 @api_default function cubes_all_control(api::TM1API; options...)
-    tm1_get_json(api, "ControlCubes()"; options...)
+    result, page_data = tm1_get_paged_json(api, "ControlCubes()"; options...)
 end
 
 @api_default function cube_by_name(api::TM1API, cube_name::AbstractString; options...)
