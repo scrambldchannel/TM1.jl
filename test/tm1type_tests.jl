@@ -54,3 +54,16 @@
     #    @test name(cube_json) == name(cube_result)
 
 end
+
+@testset "Dimension" begin
+    
+    dimension_result =
+        Dimension("Dim 1", "[Dim 1]")
+
+    @test dimension_result.Name == "Dim 1"
+    
+    # not working
+    # @test name(dimension_result) == "Dim 1"
+
+
+  end
