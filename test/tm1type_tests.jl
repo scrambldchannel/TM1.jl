@@ -36,15 +36,14 @@
                                   """)
 
     cube_result =
-        TM1.Cube("Test", "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;", ["Dim 1", "Dim 2"])
+        Cube("Test", "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;", ["Dim 1", "Dim 2"])
 
     @test cube_result.Name == "Test"
     @test cube_result.Rules == "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;"
     @test cube_result.Dimensions isa Vector
+    @test name(cube_result) == "Test"
 
     # not working
-    #    @test cube_result.Dimensions isa Vector
-
     #    cube_json = TM1.Cube(cube_json_string) 
     #    @test cube_json == cube_result
     #    @test name(cube_json) == name(cube_result)
