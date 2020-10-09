@@ -42,9 +42,14 @@
     @test cube_result.Rules == "SKIPCHECK;\n\n#['test_dim':'test1'] = N: 1;"
     @test cube_result.Dimensions isa Vector
 
+    cube_single_arg_constructor = Cube("Another Test")
+    @test cube_single_arg_constructor.Name == "Another Test"
+
     # not working
-    #    @test name(cube_result) == "Test"
-    #    cube_json = TM1.Cube(cube_json_string) 
+#        @test Cube.namefield(cube_result) == "Test"
+#        @test name(cube_result) == "Test"
+
+        #    cube_json = TM1.Cube(cube_json_string) 
     #    @test cube_json == cube_result
     #    @test name(cube_json) == name(cube_result)
 
