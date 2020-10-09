@@ -12,7 +12,7 @@ namefield(dimension::Dimension) = dimension.Name
 @api_default function dimensions_all(api::TM1API; options...)
     params = Dict("\$expand" => "Hierarchies")
     result, page_data = tm1_get_paged_json(api, "Dimensions"; params = params, options...)
-    #map(Dimension, get(result, "value", [])), page_data
+    map(Dimension, get(result, "value", [])), page_data
 end
 
 @api_default function dimensions_all_model(api::TM1API; options...)
