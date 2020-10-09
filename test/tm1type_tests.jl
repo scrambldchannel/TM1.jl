@@ -101,7 +101,7 @@ end
 
 @testset "Dimension" begin
 
-    dimension_result = Dimension("Dim 1", "[Dim 1]")
+    dimension_result = Dimension("Dim 1")
     @test dimension_result.Name == "Dim 1"
     @test name(dimension_result) == "Dim 1"
 
