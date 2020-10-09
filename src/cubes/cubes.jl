@@ -6,7 +6,7 @@
     LastSchemaUpdate::Union{Dates.DateTime,Nothing}
     LastDataUpdate::Union{Dates.DateTime,Nothing}
     Attributes::Union{Dict,Nothing}
-    Dimensions::Union{Vector,Nothing}
+    Dimensions::Union{Vector{Dimension},Nothing}
     Views::Union{Vector,Nothing}
     ViewAttributes::Union{Vector,Nothing}
     PrivateViews::Union{Vector,Nothing}
