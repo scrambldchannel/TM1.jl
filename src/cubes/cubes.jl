@@ -1,17 +1,10 @@
 # struct to model a cube
 
 @tm1def mutable struct Cube
-    # have used capital letters here to mirror what the server uses
-    # not sure if that makes sense though
+    # start with very simple representation
     Name::Union{String,Nothing}
     Rules::Union{String,Nothing}
-    Dimensions::Union{Vector{Dimension},Nothing}
-    # do I want to include all this? 
-    Views::Union{String,Nothing}
-    ViewAttributes::Union{String,Nothing}
-    PrivateViews::Union{String,Nothing}
-    Annotations::Union{String,Nothing}
-    LocalizedAttributes::Union{String,Nothing}
+    Dimensions::Union{Vector{String},Nothing}
 end
 
 Cube(name::AbstractString) = Cube(Dict("Name" => name))
