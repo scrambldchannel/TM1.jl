@@ -1,0 +1,5 @@
+  - repo: https://github.com/scrambldchannel/pre-commit-julia
+    rev: v0.1.3
+    hooks:
+      - id: format_julia
+        files: '\.(jl|JL)$'
