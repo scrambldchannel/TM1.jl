@@ -14,6 +14,6 @@
     """)
 
     @test name(Process(proc_2)) == "Proc 2"
-    @test Dimension(proc_2) != process_result
+    @test Process(proc_2) != process_result
 
 end
