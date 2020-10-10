@@ -1,7 +1,7 @@
 # struct to model a cellset
 
 @tm1def mutable struct Cellset
-    Name::Union{String,Nothing}
+    ID::Union{String,Nothing}
     Edges::Union{Vector,Nothing}
     Elements::Union{Vector,Nothing}
     ElementAttributes::Union{Vector,Nothing}
@@ -9,9 +9,9 @@
     DefaultMember::Union{Vector,Nothing}
 end
 
-Cellset(name::AbstractString) = Cellset(Dict("Name" => name))
+Cellset(id::AbstractString) = Cellset(Dict("ID" => id))
 
-namefield(cellset::Cellset) = cellset.Name
+namefield(cellset::Cellset) = cellset.ID
 
 # functions for endpoints
 
@@ -19,8 +19,6 @@ namefield(cellset::Cellset) = cellset.Name
     params = Dict("\$expand" => "Cube,Axes,Cells")
     tm1_get_json(api, "Cellsets"; params = params, options...)
 end
-
-
 
 @api_default function get_cellset(api::TM1API, cellset_id::AbstractString; options...)
     params = Dict("\$expand" => "Cube,Axes,Cells")

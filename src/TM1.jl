@@ -27,6 +27,7 @@ include("dimensions/dimensions.jl")
 include("cubes/cubes.jl")
 include("processes/processes.jl")
 include("hierarchies/hierarchies.jl")
+include("cellsets/cellsets.jl")
 
 
 export Cube,
@@ -38,5 +39,7 @@ export Dimension,
 export Process, get_all_processes, delete_process
 
 export Hierarchy, get_hierarchy, delete_hierarchy
+
+export Cellset, get_cellsets, delete_cellsets
 
 end #Module
