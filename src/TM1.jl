@@ -22,12 +22,13 @@ include("ping/ping.jl")
 export ping
 
 # basic endpoints
-
 include("dimensions/dimensions.jl")
+include("dimensions/hierarchies.jl")
+include("dimensions/elements.jl")
+
 include("cubes/cubes.jl")
 include("processes/processes.jl")
-include("hierarchies/hierarchies.jl")
-
+include("cellsets/cellsets.jl")
 
 export Cube,
     get_all_cubes, get_all_control_cubes, get_all_model_cubes, delete_cube, create_cube
@@ -35,8 +36,14 @@ export Cube,
 export Dimension,
     get_all_dimensions, get_all_model_dimensions, get_all_control_dimensions, get_dimension
 
+export Hierarchy, get_hierarchy, delete_hierarchy
+
+export Element, get_element, delete_element
+
 export Process, get_all_processes, delete_process
 
-export Hierarchy, get_hierarchy, delete_hierarchy
+export Cellset, get_cellset, delete_cellset
+
+
 
 end #Module
