@@ -1,4 +1,4 @@
-@testset "Dimension" begin
+@testset "Dimensions" begin
 
     dimension_result = Dimension("Dim 1")
     @test dimension_result.Name == "Dim 1"

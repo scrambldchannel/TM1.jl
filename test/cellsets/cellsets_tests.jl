@@ -1,4 +1,4 @@
-@testset "Cellset" begin
+@testset "Cellsets" begin
 
     # needs expanding
     cellset_result = Cellset("Cellset 1")

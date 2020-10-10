@@ -1,5 +1,5 @@
 
-@testset "Hierarchy" begin
+@testset "Hierarchies" begin
 
     # need expanding
     hierarchy_result = Hierarchy("Hierarchy 1")
