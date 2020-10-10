@@ -2,6 +2,11 @@
 
 @tm1def mutable struct Element
     Name::Union{String,Nothing}
+    UniqueName::Union{String,Nothing}
+    Index::Union{Integer,Nothing}
+    # not sure what type to use here
+    Type::Union{String,Nothing}
+    Attributes::Union{Dict,Nothing}
 end
 
 Element(name::AbstractString) = Element(Dict("Name" => name))
