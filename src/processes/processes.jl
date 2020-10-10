@@ -8,7 +8,7 @@
     DataProcedure::Union{String,Nothing}
     EpilogProcedure::Union{String,Nothing}
     # type declaration to possibly be replaced
-    DataSource::Union{Dict,Nothing}    
+    DataSource::Union{Dict,Nothing}
 end
 
 Process(name::AbstractString) = Process(Dict("Name" => name))
@@ -16,11 +16,12 @@ Process(name::AbstractString) = Process(Dict("Name" => name))
 namefield(process::Process) = process.Name
 
 @api_default function get_all_processes(api::TM1API; options...)
-    tm1_get_json(api, "Processes"; options...)
+    result, page_data = tm1_get_paged_json(api, "Processes"; params = params, options...)
+    map(Process, get(result, "value", [])), page_data
 end
 
 @api_default function get_process(api::TM1API, process_name::AbstractString; options...)
-    tm1_get_json(api, "Processes('" * process_name * "')"; options...)
+    result = tm1_get_json(api, "Processes('" * process_name * "')"; options...)
 end
 
 @api_default function delete_process(api::TM1API, process_name::AbstractString; options...)
