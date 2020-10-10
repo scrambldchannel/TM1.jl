@@ -1,0 +1,6 @@
+  - repo: local
+    hooks:
+      - id: runtests
+        name: run test suite
+        entry: "test/runtests.sh"
+        language: system
