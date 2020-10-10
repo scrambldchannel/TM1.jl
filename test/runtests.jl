@@ -7,6 +7,7 @@ include("utils/auth_tests.jl")
 include("dimensions/dimensions_tests.jl")
 include("dimensions/hierarchies_tests.jl")
 include("dimensions/elements_tests.jl")
+include("dimensions/subsets_tests.jl")
 
 include("cubes/cubes_tests.jl")
 

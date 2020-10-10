@@ -1,5 +1,7 @@
   - repo: https://github.com/scrambldchannel/pre-commit-julia
     rev: v0.1.3
     hooks:
+      - id: runtests_julia
+        files: '\.(jl|JL)$'
       - id: format_julia
         files: '\.(jl|JL)$'
