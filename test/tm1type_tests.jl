@@ -119,3 +119,41 @@ end
     @test Dimension(dim_2) != dimension_result
 
 end
+
+
+@testset "Process" begin
+
+    # need expanding
+    process_result = Process("Proc 1")
+    @test process_result.Name == "Proc 1"
+    @test name(process_result) == "Proc 1"
+
+    proc_2 = JSON.parse("""
+    {
+      "Name": "Proc 2"
+    }
+    """)
+
+    @test name(Process(proc_2)) == "Proc 2"
+    @test Dimension(proc_2) != process_result
+
+end
+
+
+@testset "Hierarchy" begin
+
+    # need expanding
+    hierarchy_result = Hierarchy("Hierarchy 1")
+    @test hierarchy_result.Name == "Hierarchy 1"
+    @test name(hierarchy_result) == "Hierarchy 1"
+
+    hierarchy_2 = JSON.parse("""
+    {
+      "Name": "Hierarchy 2"
+    }
+    """)
+
+    @test name(Hierarchy(hierarchy_2)) == "Hierarchy 2"
+    @test Hierarchy(hierarchy_2) != hierarchy_result
+
+end
