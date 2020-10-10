@@ -2,7 +2,7 @@
     Name::Union{String,Nothing}
     UniqueName::Union{String,Nothing}
     Attributes::Union{Dict,Nothing}
-    Hierarchies::Union{Vector,Nothing}
+    Hierarchies::Union{Vector{Hierarchy},Nothing}
 end
 
 Dimension(name::AbstractString) = Dimension(Dict("Name" => name))

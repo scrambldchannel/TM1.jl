@@ -3,7 +3,7 @@
 @tm1def mutable struct Hierarchy
     Name::Union{String,Nothing}
     Edges::Union{Vector,Nothing}
-    Elements::Union{Vector,Nothing}
+    Elements::Union{Vector{Element},Nothing}
     ElementAttributes::Union{Vector,Nothing}
     Subset::Union{Vector,Nothing}
     DefaultMember::Union{Vector,Nothing}

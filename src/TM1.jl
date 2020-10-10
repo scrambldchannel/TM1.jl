@@ -22,9 +22,10 @@ include("ping/ping.jl")
 export ping
 
 # basic endpoints
-include("dimensions/dimensions.jl")
-include("dimensions/hierarchies.jl")
 include("dimensions/elements.jl")
+include("dimensions/hierarchies.jl")
+include("dimensions/dimensions.jl")
+include("dimensions/subsets.jl")
 
 include("cubes/cubes.jl")
 
