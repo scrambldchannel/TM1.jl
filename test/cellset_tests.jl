@@ -1,13 +1,12 @@
 @testset "Cellset" begin
 
-    # need expanding
+    # needs expanding
     cellset_result = Cellset("Cellset 1")
-    @test cellset_result.Name == "Cellset 1"
     @test name(cellset_result) == "Cellset 1"
 
     cellset_2 = JSON.parse("""
     {
-      "Name": "Cellset 2"
+      "ID": "Cellset 2"
     }
     """)
 

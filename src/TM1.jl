@@ -40,6 +40,6 @@ export Process, get_all_processes, delete_process
 
 export Hierarchy, get_hierarchy, delete_hierarchy
 
-export Cellset, get_cellsets, delete_cellsets
+export Cellset, get_cellset, delete_cellset
 
 end #Module
