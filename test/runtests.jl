@@ -2,9 +2,11 @@ using TM1, JSON, HTTP, MbedTLS
 using Dates, Test, Base64
 using TM1: name
 
-include("cube_tests.jl")
-include("dimension_tests.jl")
-include("hierarchy_tests.jl")
-include("process_tests.jl")
-include("cellset_tests.jl")
-include("auth_tests.jl")
+include("utils/auth_tests.jl")
+
+include("dimensions/dimensions_tests.jl")
+include("dimensions/hierarchies_tests.jl")
+
+include("cubes/cubes_tests.jl")
+include("processes/processes_tests.jl")
+include("cellsets/cellsets_tests.jl")
