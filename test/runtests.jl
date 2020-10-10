@@ -9,5 +9,8 @@ include("dimensions/hierarchies_tests.jl")
 include("dimensions/elements_tests.jl")
 
 include("cubes/cubes_tests.jl")
+
 include("processes/processes_tests.jl")
+include("processes/chores_tests.jl")
+
 include("cellsets/cellsets_tests.jl")

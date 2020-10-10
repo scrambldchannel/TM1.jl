@@ -1,6 +1,4 @@
-
-
-@testset "Process" begin
+@testset "Processes" begin
 
     # need expanding
     process_result = Process("Proc 1")

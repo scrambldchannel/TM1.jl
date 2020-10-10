@@ -1,4 +1,4 @@
-@testset "Cube" begin
+@testset "Cubes" begin
     cube_json_string = JSON.parse("""
                                   {
                                     "@odata.context": "\$metadata#Cubes(Dimensions)/\$entity",

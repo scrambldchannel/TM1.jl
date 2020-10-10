@@ -7,7 +7,7 @@ Chore(name::AbstractString) = Chore(Dict("Name" => name))
 namefield(chore::Chore) = chore.Name
 
 @api_default function get_all_chorees(api::TM1API; options...)
-    result, page_data = tm1_get_paged_json(api, "Chores"; params = params, options...)
+    result, page_data = tm1_get_paged_json(api, "Chores"; options...)
     map(Chore, get(result, "value", [])), page_data
 end
 
