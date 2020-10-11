@@ -21,27 +21,25 @@ namefield(cube::Cube) = cube.Name
 # functions for endpoints
 
 @api_default function get_all_cubes(api::TM1API; options...)
-  # can maybe change these to allow specification of custom parameters
-  # and only use the ones below if nothing specified
-  params = Dict("\$expand" => "Dimensions,Views")
+  params = Dict("\$expand" => "Dimensions(\$select=Name)")
   result, page_data = tm1_get_paged_json(api, "Cubes"; params = params, options...)
   map(Cube, get(result, "value", [])), page_data
 end
 
 @api_default function get_all_model_cubes(api::TM1API; options...)
-  params = Dict("\$expand" => "Dimensions,Views")
+  params = Dict("\$expand" => "Dimensions(\$select=Name)")
   result, page_data = tm1_get_paged_json(api, "ModelCubes()"; params = params, options...)
   map(Cube, get(result, "value", [])), page_data
 end
 
 @api_default function get_all_control_cubes(api::TM1API; options...)
-  params = Dict("\$expand" => "Dimensions,Views")
+  params = Dict("\$expand" => "Dimensions(\$select=Name)")
   result, page_data = tm1_get_paged_json(api, "ControlCubes()"; params = params, options...)
   map(Cube, get(result, "value", [])), page_data
 end
 
 @api_default function get_cube(api::TM1API, cube_name::AbstractString; options...)
-  params = Dict("\$expand" => "Dimensions,Views")
+  params = Dict("\$expand" => "Dimensions(\$select=Name)")
   tm1_get_json(api, "Cubes('" * cube_name * " ')"; params = params, options...)
 end
 
