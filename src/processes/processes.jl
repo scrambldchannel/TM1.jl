@@ -22,6 +22,7 @@ end
 
 @api_default function get_process(api::TM1API, process_name::AbstractString; options...)
   result = tm1_get_json(api, "Processes('" * process_name * "')"; options...)
+  Process(result)
 end
 
 @api_default function delete_process(api::TM1API, process_name::AbstractString; options...)
