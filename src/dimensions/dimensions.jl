@@ -31,8 +31,10 @@ end
 end
 
 @api_default function get_dimension(api::TM1API, dimension_name::AbstractString; options...)
+  # I'm not entirely sure if this is behaving as desired
   params = Dict("\$expand" => "Hierarchies(\$expand=*)")
-  result = tm1_get_json(api, "Dimensions('" * dimension_name * "')"; options...)
+  result =
+    tm1_get_json(api, "Dimensions('" * dimension_name * "')"; params = params, options...)
   Dimension(result)
 end
 
