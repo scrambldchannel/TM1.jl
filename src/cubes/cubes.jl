@@ -51,7 +51,7 @@ end
 
 # is this the best way to achieve this? 
 @api_default function delete_cube(api::TM1API, cube::Cube; options...)
-  delete_delete(api, name(cube); options...)
+  delete_cube(api, name(cube); options...)
 end
 
 @api_default function create_cube(api::TM1API, cube::Cube; options...)

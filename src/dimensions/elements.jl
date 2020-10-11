@@ -6,6 +6,9 @@
   Index::Union{Integer,Nothing}
   # not sure what type to use here
   Type::Union{String,Nothing}
+  # not sure what type to use here either so am just going to skip this field
+  #Hierarchy::Union{String,Nothing}
+  Edges::Union{Vector,Nothing}
   Level::Union{Integer,Nothing}
   Attributes::Union{Dict,Nothing}
   Parents::Union{Vector{Element},Nothing}
@@ -26,6 +29,7 @@ namefield(element::Element) = element.Name
   element_name::AbstractString;
   options...,
 )
+  params = Dict("\$expand" => "*")
 
   tm1_get_json(
     api,
@@ -36,8 +40,10 @@ namefield(element::Element) = element.Name
     "')/Elements('" *
     element_name *
     "')";
+    params = params,
     options...,
   )
+
 end
 
 @api_default function delete_element(

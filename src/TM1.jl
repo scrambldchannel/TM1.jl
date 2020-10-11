@@ -21,7 +21,6 @@ include("ping/ping.jl")
 
 export ping
 
-# basic endpoints
 include("dimensions/elements.jl")
 include("dimensions/hierarchies.jl")
 include("dimensions/dimensions.jl")
