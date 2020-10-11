@@ -1,12 +1,19 @@
 @tm1def mutable struct Chore
   Name::Union{String,Nothing}
+  StartTime::Union{Dates.DateTime,Nothing}
+  DSTSensitive::Union{Bool,Nothing}
+  Active::Union{Bool,Nothing}
+  ExecutionMode::Union{String,Nothing}
+  # this might take some unpicking
+  Frequency::Union{String,Nothing}
+  Attributes::Union{Dict,Nothing}
 end
 
 Chore(name::AbstractString) = Chore(Dict("Name" => name))
 
 namefield(chore::Chore) = chore.Name
 
-@api_default function get_all_chorees(api::TM1API; options...)
+@api_default function get_all_chores(api::TM1API; options...)
   result, page_data = tm1_get_paged_json(api, "Chores"; options...)
   map(Chore, get(result, "value", [])), page_data
 end
