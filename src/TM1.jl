@@ -8,7 +8,11 @@ import HTTP, JSON, MbedTLS, Sockets
 # potentially set some high level constants Here
 
 include("utils/requests.jl")
+
 include("utils/TM1Type.jl")
+
+export name
+
 include("utils/auth.jl")
 
 export authenticate
@@ -37,7 +41,11 @@ export Cube,
   get_all_cubes, get_all_control_cubes, get_all_model_cubes, delete_cube, create_cube
 
 export Dimension,
-  get_all_dimensions, get_all_model_dimensions, get_all_control_dimensions, get_dimension
+  get_all_dimensions,
+  get_all_model_dimensions,
+  get_all_control_dimensions,
+  get_dimension,
+  delete_dimension
 
 export Hierarchy, get_hierarchy, delete_hierarchy
 
