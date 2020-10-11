@@ -3,5 +3,6 @@
     hooks:
       - id: runtests_julia
         files: '\.(jl|JL)$'
+        stages: [push]
       - id: format_julia
         files: '\.(jl|JL)$'
