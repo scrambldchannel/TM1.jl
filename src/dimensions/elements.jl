@@ -6,7 +6,11 @@
   Index::Union{Integer,Nothing}
   # not sure what type to use here
   Type::Union{String,Nothing}
+  Level::Union{Integer,Nothing}
   Attributes::Union{Dict,Nothing}
+  Parents::Union{Vector{Element},Nothing}
+  Components::Union{Vector{Element},Nothing}
+  LocalizedAttributes::Union{Vector{Dict},Nothing}
 end
 
 Element(name::AbstractString) = Element(Dict("Name" => name))
@@ -22,15 +26,16 @@ namefield(element::Element) = element.Name
   element_name::AbstractString;
   options...,
 )
+
   tm1_get_json(
     api,
-    "Dimensions/('" *
+    "Dimensions('" *
     dimension_name *
     "')/Hierarchies('" *
     hierarchy_name *
-    " ')/Elements('" *
+    "')/Elements('" *
     element_name *
-    " ')";
+    "')";
     options...,
   )
 end
@@ -45,13 +50,13 @@ end
 
   tm1_delete(
     api,
-    "Dimensions/('" *
+    "Dimensions('" *
     dimension_name *
     "')/Hierarchies('" *
     hierarchy_name *
     " ')/Elements('" *
     element_name *
-    " ')";
+    "')";
     options...,
   )
 end

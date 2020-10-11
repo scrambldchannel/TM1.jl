@@ -24,7 +24,7 @@ namefield(hierarchy::Hierarchy) = hierarchy.Name
   params = Dict("\$expand" => "Edges,Elements,ElementAttributes,Subsets,DefaultMember")
   tm1_get_json(
     api,
-    "Dimensions/('" * dimension_name * "')/Hierarchies('" * hierarchy_name * " ')";
+    "Dimensions('" * dimension_name * "')/Hierarchies('" * hierarchy_name * "')";
     params = params,
     options...,
   )
@@ -39,7 +39,7 @@ end
 
   tm1_delete(
     api,
-    "Dimensions/('" * dimension_name * "')/Hierarchies('" * hierarchy_name * " ')";
+    "Dimensions('" * dimension_name * "')/Hierarchies('" * hierarchy_name * "')";
     options...,
   )
 end
