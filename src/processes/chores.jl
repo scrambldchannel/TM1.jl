@@ -13,6 +13,7 @@ end
 
 @api_default function get_chore(api::TM1API, chore_name::AbstractString; options...)
   result = tm1_get_json(api, "Chores('" * chore_name * "')"; options...)
+  Chore(result)
 end
 
 @api_default function delete_chore(api::TM1API, chore_name::AbstractString; options...)

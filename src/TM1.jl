@@ -55,7 +55,7 @@ export Subset, get_subset, delete_subset
 
 export Process, get_all_processes, get_process, delete_process
 
-export Chore, get_all_chores, delete_chore
+export Chore, get_all_chores, get_chore, delete_chore
 
 
 export Cellset, get_cellset, delete_cellset
