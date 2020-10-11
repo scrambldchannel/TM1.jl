@@ -31,7 +31,7 @@ namefield(element::Element) = element.Name
 )
   params = Dict("\$expand" => "*")
 
-  tm1_get_json(
+  result = tm1_get_json(
     api,
     "Dimensions('" *
     dimension_name *
@@ -44,6 +44,7 @@ namefield(element::Element) = element.Name
     options...,
   )
 
+  Element(result)
 end
 
 @api_default function delete_element(
@@ -60,7 +61,7 @@ end
     dimension_name *
     "')/Hierarchies('" *
     hierarchy_name *
-    " ')/Elements('" *
+    "')/Elements('" *
     element_name *
     "')";
     options...,
