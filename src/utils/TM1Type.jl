@@ -24,51 +24,51 @@ Define a new `TM1Type` specified by `typeexpr`, adding default constructors for
 conversions from `Dict`s and keyword arguments.
 """
 macro tm1def(expr)
-    # a very simplified form of Base.@kwdef
-    expr = macroexpand(__module__, expr) # to expand @static
-    expr isa Expr && expr.head == :struct && expr.args[2] isa Symbol ||
-        error("Invalid usage of @tm1type")
-    T = expr.args[2]
-    expr.args[2] = :($T <: TM1Type)
+  # a very simplified form of Base.@kwdef
+  expr = macroexpand(__module__, expr) # to expand @static
+  expr isa Expr && expr.head == :struct && expr.args[2] isa Symbol ||
+    error("Invalid usage of @tm1type")
+  T = expr.args[2]
+  expr.args[2] = :($T <: TM1Type)
 
-    params_ex = Expr(:parameters)
-    call_args = Any[]
+  params_ex = Expr(:parameters)
+  call_args = Any[]
 
-    for ei in expr.args[3].args
-        if ei isa Expr && ei.head == :(::)
-            var = ei.args[1]
-            S = ei.args[2]
-            push!(params_ex.args, Expr(:kw, var, nothing))
-            push!(
-                call_args,
-                :($var === nothing ? $var : prune_tm1_value($var, unwrap_union_types($S))),
-            )
-        end
+  for ei in expr.args[3].args
+    if ei isa Expr && ei.head == :(::)
+      var = ei.args[1]
+      S = ei.args[2]
+      push!(params_ex.args, Expr(:kw, var, nothing))
+      push!(
+        call_args,
+        :($var === nothing ? $var : prune_tm1_value($var, unwrap_union_types($S))),
+      )
     end
-    quote
-        Base.@__doc__($(esc(expr)))
-        ($(esc(T)))($params_ex) = ($(esc(T)))($(call_args...))
-        $(esc(T))(data::Dict) = json2tm1($T, data)
-    end
+  end
+  quote
+    Base.@__doc__($(esc(expr)))
+    ($(esc(T)))($params_ex) = ($(esc(T)))($(call_args...))
+    $(esc(T))(data::Dict) = json2tm1($T, data)
+  end
 end
 
 function Base.:(==)(a::TM1Type, b::TM1Type)
-    if typeof(a) != typeof(b)
+  if typeof(a) != typeof(b)
+    return false
+  end
+
+  for field in fieldnames(typeof(a))
+    aval, bval = getfield(a, field), getfield(b, field)
+    if (aval === nothing) == (bval === nothing)
+      if aval !== nothing && aval != bval
         return false
+      end
+    else
+      return false
     end
+  end
 
-    for field in fieldnames(typeof(a))
-        aval, bval = getfield(a, field), getfield(b, field)
-        if (aval === nothing) == (bval === nothing)
-            if aval !== nothing && aval != bval
-                return false
-            end
-        else
-            return false
-        end
-    end
-
-    return true
+  return true
 end
 
 # `namefield` is overloaded by various TM1Types to allow for more generic
@@ -83,25 +83,25 @@ name(t::TM1Type) = namefield(t)
 # Unwrap Union{Nothing, Foo} to just Foo
 unwrap_union_types(T) = T
 function unwrap_union_types(T::Union)
-    if T.a == Nothing
-        return T.b
-    end
-    return T.a
+  if T.a == Nothing
+    return T.b
+  end
+  return T.a
 end
 
 function extract_nullable(data::Dict, key, ::Type{T}) where {T}
-    if haskey(data, key)
-        val = data[key]
-        if val !== nothing
-            if T <: Vector
-                V = eltype(T)
-                return V[prune_tm1_value(v, unwrap_union_types(V)) for v in val]
-            else
-                return prune_tm1_value(val, unwrap_union_types(T))
-            end
-        end
+  if haskey(data, key)
+    val = data[key]
+    if val !== nothing
+      if T <: Vector
+        V = eltype(T)
+        return V[prune_tm1_value(v, unwrap_union_types(V)) for v in val]
+      else
+        return prune_tm1_value(val, unwrap_union_types(T))
+      end
     end
-    return nothing
+  end
+  return nothing
 end
 
 prune_tm1_value(val::T, ::Type{Any}) where {T} = val
@@ -116,10 +116,10 @@ prune_tm1_value(val::AbstractString, ::Type{Dates.DateTime}) = Dates.DateTime(ch
 
 # Not sure this is necessary
 function chopz(str::AbstractString)
-    if !(isempty(str)) && last(str) == 'Z'
-        return chop(str)
-    end
-    return str
+  if !(isempty(str)) && last(str) == 'Z'
+    return chop(str)
+  end
+  return str
 end
 
 # Calling `json2tm1(::Type{TM<:TM1Type}, data::Dict)` will parse the given
@@ -127,15 +127,15 @@ end
 # `TM` are keys of `data`, and the corresponding values can be converted to the
 # given field types.
 @generated function json2tm1(::Type{TM}, data::Dict) where {TM<:TM1Type}
-    types = unwrap_union_types.(collect(TM.types))
-    fields = fieldnames(TM)
-    args = Vector{Expr}(undef, length(fields))
-    for i in eachindex(fields)
-        field, T = fields[i], types[i]
-        key = field == :typ ? "type" : string(field)
-        args[i] = :(extract_nullable(data, $key, $T))
-    end
-    return :(TM($(args...))::TM)
+  types = unwrap_union_types.(collect(TM.types))
+  fields = fieldnames(TM)
+  args = Vector{Expr}(undef, length(fields))
+  for i in eachindex(fields)
+    field, T = fields[i], types[i]
+    key = field == :typ ? "type" : string(field)
+    args[i] = :(extract_nullable(data, $key, $T))
+  end
+  return :(TM($(args...))::TM)
 end
 
 
@@ -149,23 +149,23 @@ tm12json(dt::Dates.DateTime) = string(dt) * "Z"
 tm12json(v::Vector) = [tm12json(i) for i in v]
 
 function tm12json(t::TM1Type)
-    results = Dict()
-    for field in fieldnames(typeof(t))
-        val = getfield(t, field)
-        if val !== nothing
-            key = field == :typ ? "type" : string(field)
-            results[key] = tm12json(val)
-        end
+  results = Dict()
+  for field in fieldnames(typeof(t))
+    val = getfield(t, field)
+    if val !== nothing
+      key = field == :typ ? "type" : string(field)
+      results[key] = tm12json(val)
     end
-    return results
+  end
+  return results
 end
 
 function tm12json(data::Dict{K}) where {K}
-    results = Dict{K,Any}()
-    for (key, val) in data
-        results[key] = tm12json(val)
-    end
-    return results
+  results = Dict{K,Any}()
+  for (key, val) in data
+    results[key] = tm12json(val)
+  end
+  return results
 end
 
 ###################
@@ -173,26 +173,26 @@ end
 ###################
 
 function Base.show(io::IO, t::TM1Type)
-    if get(io, :compact, false)
-        uri_id = namefield(t)
-        if uri_id === nothing
-            print(io, typeof(t), "(…)")
-        else
-            print(io, typeof(t), "($(repr(uri_id)))")
-        end
+  if get(io, :compact, false)
+    uri_id = namefield(t)
+    if uri_id === nothing
+      print(io, typeof(t), "(…)")
     else
-        print(io, "$(typeof(t)) (all fields are Union{Nothing, T}):")
-        for field in fieldnames(typeof(t))
-            val = getfield(t, field)
-            if !(val === nothing)
-                println(io)
-                print(io, "  $field: ")
-                if isa(val, Vector)
-                    print(io, typeof(val))
-                else
-                    show(IOContext(io, :compact => true), val)
-                end
-            end
-        end
+      print(io, typeof(t), "($(repr(uri_id)))")
     end
+  else
+    print(io, "$(typeof(t)) (all fields are Union{Nothing, T}):")
+    for field in fieldnames(typeof(t))
+      val = getfield(t, field)
+      if !(val === nothing)
+        println(io)
+        print(io, "  $field: ")
+        if isa(val, Vector)
+          print(io, typeof(val))
+        else
+          show(IOContext(io, :compact => true), val)
+        end
+      end
+    end
+  end
 end
