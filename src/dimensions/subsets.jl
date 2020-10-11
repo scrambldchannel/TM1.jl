@@ -26,18 +26,16 @@ namefield(subset::Subset) = subset.Name
 )
   subset_type = subset_type_string(private)
 
-  params = Dict(
-    "\$expand" =>
-      "\$expand=Hierarchy(\$select=Dimension,Name),Elements(\$select=Name)&\$select=*,Alias",
-  )
+  # exact parameters to pass need review 
+  params = Dict("\$expand" => "Hierarchy(\$select=Dimension,Name),Elements(\$select=Name)")
 
   tm1_get_json(
     api,
-    "Dimensions/('" *
+    "Dimensions('" *
     dimension_name *
     "')/Hierarchies('" *
     hierarchy_name *
-    " ')/" *
+    "')/" *
     subset_type *
     "('" *
     subset_name *
@@ -59,11 +57,11 @@ end
 
   tm1_delete(
     api,
-    "Dimensions/('" *
+    "Dimensions('" *
     dimension_name *
     "')/Hierarchies('" *
     hierarchy_name *
-    " ')/" *
+    "')/" *
     subset_type *
     "('" *
     subset_name *
